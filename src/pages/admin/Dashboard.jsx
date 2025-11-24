@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { assets, dashboard_data } from '../../assets/assets'
+import { assets } from '../../assets/assets'
 import toast from 'react-hot-toast';
 import axios from '../../utils/axios';
 

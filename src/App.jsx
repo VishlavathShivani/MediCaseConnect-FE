@@ -8,9 +8,9 @@ import AddReport from './pages/admin/AddReport'
 import ListReports from './pages/admin/ListReports'
 import Departments from './pages/admin/Departments';
 import Users from './pages/admin/Users';
-import Login from './components/admin/Login'
+import Login from './pages/Login'
 import Loader from './components/Loader'
-import ForgotPassword from './components/admin/ForgotPassword'
+import ForgotPassword from './pages/ForgotPassword'
 import 'quill/dist/quill.snow.css'
 import { Toaster } from 'react-hot-toast'
 import { useUser, useAuth } from '@clerk/clerk-react'

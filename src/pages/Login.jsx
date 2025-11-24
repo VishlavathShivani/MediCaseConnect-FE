@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useSignIn, useClerk } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
-import { assets } from '../../assets/assets'
-import useAuthStore from '../../stores/AuthStore'
+import { assets } from '../assets/assets'
+import useAuthStore from '../stores/AuthStore'
 
 const Login = () => {
   const { signIn, setActive, isSignedIn, isLoaded } = useSignIn()
@@ -64,16 +64,71 @@ const Login = () => {
 
 
 
+  // return (
+  //   <div className='flex items-center justify-center h-screen'>
+  //     <div className='w-full max-w-sm p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg'>
+  //       <div className='flex flex-col items-center justify-center'>
+  //         <img src={assets.logo} alt="logo" className='w-40 mb-4 cursor-pointer'/>
+  //         <div className='w-full text-center'>
+  //           <h1 className='text-3xl font-bold'><span className='text-primary'>User</span> Login</h1>
+  //           <p className='font-light text-gray-600'>Enter your credentials to access</p>
+  //         </div>
+          
+  //         <form onSubmit={handleLogin} className='mt-6 w-full sm:max-w-md'>
+  //           <div className='flex flex-col'>
+  //             <label> Email </label>
+  //             <input 
+  //               onChange={e=>setEmail(e.target.value)} 
+  //               value={email} 
+  //               type='email' 
+  //               required 
+  //               placeholder='your email id' 
+  //               className='border-b-2 border-gray-300 p-2 outline-none mb-6'
+  //             />
+  //           </div>
+  //           <div className='flex flex-col'>
+  //             <label> Password </label>
+  //             <input 
+  //               type="password" 
+  //               onChange={e=>setPassword(e.target.value)} 
+  //               value={password} 
+  //               required 
+  //               placeholder='your password' 
+  //               className='border-b-2 border-gray-300 p-2 outline-none mb-6'
+  //             />
+  //           </div>
+  //           <button 
+  //             type="button"
+  //             onClick={handleForgotPassword}
+  //             className='text-sm text-primary hover:underline mb-3'
+  //           >
+  //             Forgot Password?
+  //           </button>
+  //           <button 
+  //             type="submit" 
+  //             disabled={isLoading || !isLoaded}
+  //             className='w-full py-3 font-medium bg-primary text-white rounded cursor-pointer hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
+  //           > 
+  //             {isLoading ? 'Logging in...' : 'Login'}
+  //           </button>
+  //         </form>
+  //       </div>
+  //     </div>
+  //   </div>
+  // )
   return (
+
+    
     <div className='flex items-center justify-center h-screen'>
+      
       <div className='w-full max-w-sm p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg'>
         <div className='flex flex-col items-center justify-center'>
-          <img src={assets.logo} alt="logo" className='w-32 mb-4 cursor-pointer'/>
+          <img src={assets.logo} alt="logo" className='w-40 mb-4 cursor-pointer'/>
           <div className='w-full text-center'>
             <h1 className='text-3xl font-bold'><span className='text-primary'>User</span> Login</h1>
             <p className='font-light text-gray-600'>Enter your credentials to access</p>
           </div>
-          
+    
           <form onSubmit={handleLogin} className='mt-6 w-full sm:max-w-md'>
             <div className='flex flex-col'>
               <label> Email </label>
@@ -113,8 +168,19 @@ const Login = () => {
             </button>
           </form>
         </div>
+
+        {/* Demo Credentials Box */}
+          <div className='w-full mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm'>
+            <p className='font-semibold text-gray-700 mb-2'>Demo Credentials:</p>
+            <div className='space-y-1 text-gray-600'>
+              <p><span className='font-medium'>Admin:</span> admin@mccdemo.com : MedAdmin!2025</p>
+              <p><span className='font-medium'>Clinician:</span> clinician@mccdemo.com : MedClinician!2025</p>
+            </div>
+          </div>
       </div>
     </div>
+
+    
   )
 }
 
