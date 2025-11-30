@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { report_data, blogCategories } from '../assets/assets'
 import { motion } from 'motion/react'
 import ReportCard from './ReportCard'
 import Loader from './Loader'

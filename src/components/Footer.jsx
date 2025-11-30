@@ -7,7 +7,11 @@ const Footer = () => {
       <div className='flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-gray-500/30 text-gray-500'>
 
         <div className='max-w-md'>
-          <img src={assets.logo} alt="logo" className='w-32 sm:w-44' />
+          <img 
+  src={assets.logo} 
+  alt="logo" 
+  className='w-40 sm:w-48 md:w-52' 
+/>
           <p className='mt-6 text-sm leading-relaxed'>
             MediCaseConnect streamlines medical report management and analysis, 
             enabling healthcare professionals to efficiently store, search, and 

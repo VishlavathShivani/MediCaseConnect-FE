@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useSignIn, useClerk } from '@clerk/clerk-react'
 import { useNavigate , Navigate} from 'react-router-dom'
-import { assets } from '../../assets/assets'
+import { assets } from '../assets/assets'
 
 const ForgotPassword = () => {
   const { signIn, setActive } = useSignIn()
@@ -13,7 +13,6 @@ const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState('')
   const [resetStep, setResetStep] = useState(1)
 
-  const { signOut } = useClerk()
 
   const handleSendResetCode = async (e) => {
     e.preventDefault()
