@@ -22,7 +22,7 @@ const ReportList = () => {
 
     const [filters, setFilters] = useState({
         extraction_status: "",
-        embedding_status: "",
+        indexing_status: "",
         dept_code: "",
         branch_code: "",
         clinician_id: "",
@@ -33,7 +33,7 @@ const ReportList = () => {
 
     const filterOptions = {
         extraction_status: ["pending", "completed", "failed"],
-        embedding_status: ["pending", "completed", "failed"],
+        indexing_status: ["pending", "completed", "failed"],
         dept_code: ["ORTHO", "NEURO", "CARDIO", "GASTRO", "DERMA"]
     };
 
@@ -48,7 +48,7 @@ const ReportList = () => {
     const clearFilters = () => {
         const clearedFilters = {
             extraction_status: "",
-            embedding_status: "",
+            indexing_status: "",
             dept_code: "",
             clinician_id: "",
             tags: [],
@@ -100,38 +100,6 @@ const ReportList = () => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
                             />
                         </div>
-
-                        {/* Extraction Status */}
-                        {/* <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-2">Extraction Status</label>
-                            <select
-                                value={filters.extraction_status}
-                                onChange={(e) => setFilters({ ...filters, extraction_status: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 text-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-primary"
-                            >
-                                <option value="">All</option>
-                                {filterOptions.extraction_status.map(status => (
-                                    <option key={status} value={status}>{status}</option>
-                                ))}
-                            </select>
-                        </div> */}
-
-                        {/* Embedding Status */}
-                        {/* <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-2">Embedding Status</label>
-                            <select
-                                value={filters.embedding_status}
-                                onChange={(e) => setFilters({ ...filters, embedding_status: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
-                            >
-                                <option value="">All</option>
-                                {filterOptions.embedding_status.map(status => (
-                                    <option key={status} value={status}>{status}</option>
-                                ))}
-                            </select>
-                        </div> */}
-
-
 
                         {/* Department */}
                         <div>

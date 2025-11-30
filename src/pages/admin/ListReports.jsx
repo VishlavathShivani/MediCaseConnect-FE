@@ -10,7 +10,7 @@ const ListReports = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState(null);
   const [filters, setFilters] = useState({
-    embedding_status: "",
+    indexing_status: "",
     dept_code: "",
     branch_code: "",
     clinician_id: "",
@@ -57,7 +57,7 @@ const ListReports = () => {
 
   const handleClearFilters = () => {
     setFilters({
-      embedding_status: "",
+      indexing_status: "",
       dept_code: "",
       branch_code: "",
       clinician_id: "",
@@ -159,13 +159,13 @@ const ListReports = () => {
             {/* Second row - 3 fields */}
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 
-              {/* Embedding Status */}
+              {/* Indexing Status */}
               <div>
-                <label className='block text-sm font-medium mb-2 text-gray-700'>Embedding Status</label>
-                <Listbox value={filters.embedding_status} onChange={(value) => setFilters({ ...filters, embedding_status: value })}>
+                <label className='block text-sm font-medium mb-2 text-gray-700'>Indexing Status</label>
+                <Listbox value={filters.indexing_status} onChange={(value) => setFilters({ ...filters, indexing_status: value })}>
                   <div className="relative">
                     <ListboxButton className="w-full px-4 py-2.5 border border-gray-300 rounded bg-gray-50 text-gray-700 focus:border-primary cursor-pointer flex justify-between items-center">
-                      {filters.embedding_status || 'All Statuses'}
+                      {filters.indexing_status || 'All Statuses'}
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 9l6 6 6-6" />
                       </svg>
@@ -243,7 +243,7 @@ const ListReports = () => {
                 <th scope='col' className='px-4 py-4'>Branch</th>
                 <th scope='col' className='px-4 py-4'>Tags</th>
                 <th scope='col' className='px-4 py-4'>Uploaded</th>
-                <th scope='col' className='px-4 py-4'>Status</th>
+                <th scope='col' className='px-4 py-4'>Indexing Status</th>
                 <th scope='col' className='px-4 py-4'>Actions</th>
               </tr>
             </thead>
@@ -309,10 +309,10 @@ const ListReports = () => {
                       {new Date(report.uploaded_at).toLocaleDateString()}
                     </td>
                     <td className='px-4 py-2'>
-                      <span className={`px-2 py-1 text-xs rounded ${report.embedding_status === 'completed' ? 'bg-green-100 text-green-700' :
-                            report.embedding_status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
+                      <span className={`px-2 py-1 text-xs rounded ${report.indexing_status === 'completed' ? 'bg-green-100 text-green-700' :
+                            report.indexing_status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
                         }`}>
-                        {report.embedding_status || 'pending'}
+                        {report.indexing_status || 'pending'}
                       </span>
                     </td>
                     <td className='px-4 py-1'>
