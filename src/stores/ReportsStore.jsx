@@ -74,8 +74,7 @@ const useReportsStore = create((set, get) => ({
   searchByQuery: async (query) => {
     set({ isLoading: true, error: null });
     try {
-      const { data } = await axios.post('/api/reports/search/by-query', { query });
-      
+      const { data } = await axios.post('/api/reports/search/by-query', { query });   
 
       if (data.success) {
         set({
