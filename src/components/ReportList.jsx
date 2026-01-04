@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react'
 import ReportCard from './ReportCard'
 import Loader from './Loader'
 import useReportsStore from '../stores/ReportsStore'
-
+import axios from '../utils/axios'
 
 const ReportList = () => {
 
@@ -16,13 +17,15 @@ const ReportList = () => {
     } = useReportsStore();
 
     const [showFilters, setShowFilters] = useState(false);
+    const [departments, setDepartments] = useState([]);
+    const [loadingDepts, setLoadingDepts] = useState(false);
 
     const { page, totalPages } = pagination;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     const [filters, setFilters] = useState({
-        extraction_status: "",
-        indexing_status: "",
+        // extraction_status: "",
+        // indexing_status: "",
         dept_code: "",
         branch_code: "",
         clinician_id: "",
@@ -31,25 +34,57 @@ const ReportList = () => {
         tags: []
     });
 
-    const filterOptions = {
-        extraction_status: ["pending", "completed", "failed"],
-        indexing_status: ["pending", "completed", "failed"],
-        dept_code: ["ORTHO", "NEURO", "CARDIO", "GASTRO", "DERMA"]
+  
+
+    // Fetch departments from backend
+    useEffect(() => {
+        fetchDepartments();
+    }, []);
+
+    const fetchDepartments = async () => {
+        setLoadingDepts(true);
+        try {
+            const { data } = await axios.get('/api/admin/departments');
+            if (data.success) {
+                setDepartments(data.departments);
+            } else {
+                // Fallback to default departments if API fails
+                setDepartments([
+                    { code: 'CARDIO', name: 'Cardiology' },
+                    { code: 'NEURO', name: 'Neurology' },
+                    { code: 'ORTHO', name: 'Orthopedics' },
+                    { code: 'ENDO', name: 'Endocrinology' },
+                    { code: 'OBGYN', name: 'Obstetrics and Gynecology' },
+                    { code: 'PULMO', name: 'Pulmonology' }
+                ]);
+            }
+        } catch (error) {
+            console.error('Failed to fetch departments:', error);
+            // Use fallback departments
+            setDepartments([
+                { code: 'CARDIO', name: 'Cardiology' },
+                { code: 'NEURO', name: 'Neurology' },
+                { code: 'ORTHO', name: 'Orthopedics' },
+                { code: 'ENDO', name: 'Endocrinology' },
+                { code: 'OBGYN', name: 'Obstetrics and Gynecology' },
+                { code: 'PULMO', name: 'Pulmonology' }
+            ]);
+        } finally {
+            setLoadingDepts(false);
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Filters applied:", filters);
-        fetchReports(filters);
+        // Reset to page 1 when applying filters
+        fetchReports(filters, 1);
     };
-
-
 
     const clearFilters = () => {
         const clearedFilters = {
-            extraction_status: "",
-            indexing_status: "",
             dept_code: "",
+            branch_code: "",
             clinician_id: "",
             tags: [],
             uploaded_from: "",
@@ -57,8 +92,8 @@ const ReportList = () => {
         };
 
         setFilters(clearedFilters);
-        fetchReports();
-
+        // Reset to page 1 when clearing filters
+        fetchReports({}, 1);
     };
 
     useEffect(() => {
@@ -101,19 +136,37 @@ const ReportList = () => {
                             />
                         </div>
 
-                        {/* Department */}
+                        {/* Department - Updated with Listbox */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-2">Department</label>
-                            <select
-                                value={filters.dept_code}
-                                onChange={(e) => setFilters({ ...filters, dept_code: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                            <label className='block text-sm font-medium mb-2 text-gray-700'>Department</label>
+                            <Listbox 
+                                value={filters.dept_code} 
+                                onChange={(value) => setFilters({ ...filters, dept_code: value })}
+                                disabled={loadingDepts}
                             >
-                                <option value="">All</option>
-                                {filterOptions.dept_code.map(dept => (
-                                    <option key={dept} value={dept}>{dept}</option>
-                                ))}
-                            </select>
+                                <div className="relative">
+                                    <ListboxButton className="w-full px-4 py-2.5 border border-gray-300 rounded bg-gray-50 text-gray-700 focus:border-primary cursor-pointer flex justify-between items-center disabled:bg-gray-100 disabled:cursor-not-allowed">
+                                        {loadingDepts ? 'Loading...' : (filters.dept_code || 'All Departments')}
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 9l6 6 6-6" />
+                                        </svg>
+                                    </ListboxButton>
+                                    <ListboxOptions className="absolute mt-1 w-full bg-white border border-gray-200 rounded shadow-md z-10 max-h-60 overflow-auto">
+                                        <ListboxOption value='' className="cursor-pointer p-2 hover:bg-blue-50 text-gray-700">
+                                            All Departments
+                                        </ListboxOption>
+                                        {departments.map((dept) => (
+                                            <ListboxOption 
+                                                key={dept.code} 
+                                                value={dept.code} 
+                                                className="cursor-pointer p-2 hover:bg-blue-50 text-gray-700"
+                                            >
+                                                {dept.code}
+                                            </ListboxOption>
+                                        ))}
+                                    </ListboxOptions>
+                                </div>
+                            </Listbox>
                         </div>
 
                         {/* Branch Code */}
@@ -149,12 +202,12 @@ const ReportList = () => {
                             />
                             <div className="flex flex-wrap gap-2 ">
                                 {filters.tags.map((tag, index) => (
-                                    <span key={index} className="bg-amber-100 text-amber-700 border border-amber-200 px-3 py-0.5 rounded-full text-sm flex items-center gap-2">
+                                    <span key={index} className="bg-rose-50 text-rose-700 border border-rose-300 px-3 py-0.5 rounded-full text-sm flex items-center gap-2">
                                         {tag}
                                         <button
                                             type="button"
                                             onClick={() => setFilters({ ...filters, tags: filters.tags.filter((_, i) => i !== index) })}
-                                            className="text-amber-600 hover:text-amber-800 cursor-pointer"
+                                            className="text-rose-600 hover:text-rose-800 cursor-pointer"
                                         >
                                             ×
                                         </button>
@@ -199,8 +252,6 @@ const ReportList = () => {
                 </form>
             )}
 
-
-
             {isLoading ? (
                 <Loader />
             ) : reports.length > 0 ? (
@@ -211,8 +262,6 @@ const ReportList = () => {
             ) : (
                 <p className="text-center text-gray-500 py-12">No reports found</p>
             )}
-
-            
 
             <div className="flex justify-center items-center gap-4 sm:gap-6 mt-8 mb-5">
                 <button
@@ -246,10 +295,6 @@ const ReportList = () => {
         </div>
 
     )
-
-
-
-
 }
 
 export default ReportList

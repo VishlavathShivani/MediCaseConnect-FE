@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { assets } from '../../assets/assets';
 import toast from 'react-hot-toast';
 import useReportsStore from '../../stores/ReportsStore';
@@ -32,26 +33,22 @@ const AddReport = () => {
           { code: 'CARDIO', name: 'Cardiology' },
           { code: 'NEURO', name: 'Neurology' },
           { code: 'ORTHO', name: 'Orthopedics' },
-          // { code: 'pediatrics', name: 'Pediatrics' },
-          // { code: 'radiology', name: 'Radiology' },
-          // { code: 'pathology', name: 'Pathology' },
-          // { code: 'emergency', name: 'Emergency' },
-          { code: 'GNRL', name: 'General Medicine' }
+          { code: 'ENDO', name: 'Endocrinology' },
+          { code: 'OBGYN', name: 'Obstetrics and Gynecology' },
+          { code: 'PULMO', name: 'Pulmonology' }
         ]);
       }
     } catch (error) {
       console.error('Failed to fetch departments:', error);
       // Use fallback departments
-      setDepartments([
-        { code: 'CARDIO', name: 'Cardiology' },
-        { code: 'NEURO', name: 'Neurology' },
-        { code: 'ORTHO', name: 'Orthopedics' },
-        // { code: 'pediatrics', name: 'Pediatrics' },
-        // { code: 'radiology', name: 'Radiology' },
-        // { code: 'pathology', name: 'Pathology' },
-        // { code: 'emergency', name: 'Emergency' },
-        { code: 'GNRL', name: 'General Medicine' }
-      ]);
+     setDepartments([
+          { code: 'CARDIO', name: 'Cardiology' },
+          { code: 'NEURO', name: 'Neurology' },
+          { code: 'ORTHO', name: 'Orthopedics' },
+          { code: 'ENDO', name: 'Endocrinology' },
+          { code: 'OBGYN', name: 'Obstetrics and Gynecology' },
+          { code: 'PULMO', name: 'Pulmonology' }
+        ]);
     } finally {
       setLoadingDepts(false);
     }
@@ -91,7 +88,6 @@ const AddReport = () => {
       formData.append('branchCode', branchCode);
       formData.append('file', file);
       formData.append('tags', JSON.stringify(tagsArray));
-
 
       const result = await addReport(formData);
 
@@ -175,32 +171,34 @@ const AddReport = () => {
           />
         </div>
 
-        {/* Department Code */}
+        {/* Department Code - Updated with Listbox */}
         <div className='mb-6'>
-          <p className='text-sm font-medium mb-2'>Department</p>
-          <select
-            onChange={(e) => setDeptCode(e.target.value)}
-            value={deptCode}
-            required
+          <p className='text-sm font-medium mb-2 text-gray-700'>Department</p>
+          <Listbox 
+            value={deptCode} 
+            onChange={setDeptCode}
             disabled={loadingDepts}
-            className='w-full max-w-lg p-3 border border-gray-300 outline-none rounded focus:border-primary transition-colors bg-white disabled:bg-gray-100 text-gray-700 appearance-none cursor-pointer'
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
-              backgroundPosition: 'right 0.5rem center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem'
-            }}
           >
-            <option value="" disabled>
-              {loadingDepts ? 'Loading departments...' : 'Select department'}
-            </option>
-            {departments.map((dept, index) => (
-              <option key={index} value={dept.code}>
-                {dept.code}
-              </option>
-            ))}
-          </select>
+            <div className="relative w-full max-w-lg">
+              <ListboxButton className="w-full px-4 py-2.5 border border-gray-300 rounded bg-gray-50 text-gray-700 focus:border-primary cursor-pointer flex justify-between items-center disabled:bg-gray-100 disabled:cursor-not-allowed">
+                {loadingDepts ? 'Loading departments...' : (deptCode || 'Select department')}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 9l6 6 6-6" />
+                </svg>
+              </ListboxButton>
+              <ListboxOptions className="absolute mt-1 w-full bg-white border border-gray-200 rounded shadow-md z-10 max-h-60 overflow-auto">
+                {departments.map((dept) => (
+                  <ListboxOption 
+                    key={dept.code} 
+                    value={dept.code} 
+                    className="cursor-pointer p-2 hover:bg-blue-50 text-gray-700"
+                  >
+                    {dept.code}
+                  </ListboxOption>
+                ))}
+              </ListboxOptions>
+            </div>
+          </Listbox>
         </div>
 
         {/* Branch Code */}
@@ -248,8 +246,6 @@ const AddReport = () => {
         </div>
       </div>
     </form>
-
-    
   );
 };
 
