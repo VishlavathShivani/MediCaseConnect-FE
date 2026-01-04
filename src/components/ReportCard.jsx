@@ -1,6 +1,4 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom';
-
 
 const ReportCard = ({ report }) => {
 
@@ -8,45 +6,8 @@ const ReportCard = ({ report }) => {
   const navigate = useNavigate();
 
   return (
-    // <div onClick={() => window.open(s3_url, '_blank')} className='w-full rounded-lg overflow-hidden shadow hover:scale-105 hover:shadow-primary/25 duration-300 cursor-pointer'>
-
-    //   {/* <img src={image} alt="" className='aspect-video' /> */}
-    //   {dept_logo_url ? (
-    //     <img src={dept_logo_url} alt={`${dept_code} department logo`} className='aspect-video' />
-    //   ) : (
-    //     <div className='aspect-video bg-gray-200 flex items-center justify-center'>
-    //       <span className='text-gray-500 font-medium'>{dept_code}</span>
-    //     </div>
-    //   )}
-
-    //   <span className='ml-5 mt-4 px-3 py-1 inline-block bg-primary/20 rounded-full text-primary text-xs'>
-    //     {dept_code}
-    //   </span>
-
-    //   {diagnosis_tags && diagnosis_tags.length > 0 && (
-    //     <div className="ml-5 mt-2 flex flex-wrap gap-2">
-    //       {diagnosis_tags.map((tag, idx) => (
-    //         <span
-    //           key={idx}
-    //           className="px-3 py-1 inline-block rounded-full bg-amber-100 text-amber-700 text-xs"
-    //         >{tag}</span>
-    //       ))}
-    //     </div>
-    //   )}
-
-    //   <div className='p-5'>
-    //     <h5 className='mb-2 font-medium text-gray-900 text-sm sm:text-base lg:text-lg  leading-tight break-words line-clamp-2'>{file_name}</h5>
-    //     <p className='mb-3 text-xs text-gray-600'>Clinician ID: {clinician_id}</p>
-    //     <p className='mb-3 text-xs text-gray-600'>Clinician Name: {clinician_name}</p>
-    //     <p className='mb-3 text-xs text-gray-600'>Branch Code: {branch_code}</p>
-    //     <p className='mb-3 text-xs text-gray-600'>Uploaded At: {new Date(uploaded_at).toLocaleString()}</p>
-    //     {/* <p className='mb-3 text-xs text-gray-600' dangerouslySetInnerHTML={{"__html": description.slice(0, 80)}}></p> */}
-    //   </div>
-
-
-    // </div>
-
-    <div onClick={() => window.open(s3_url, '_blank')} className='w-full rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:scale-102 duration-300 cursor-pointer bg-white'>
+   
+    <div onClick={() => window.open(s3_url, '_blank')} className='w-full rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:scale-102 duration-300 cursor-pointer bg-white flex flex-col h-full'>
 
       {/* Image Section */}
       {dept_logo_url ? (
@@ -58,7 +19,7 @@ const ReportCard = ({ report }) => {
       )}
 
       {/* Content Section */}
-      <div className='p-4'>
+      <div className='p-4 flex flex-col flex-grow'>
 
         {/* Department Badge */}
         <div className="flex items-center justify-start mb-3">
@@ -102,8 +63,8 @@ const ReportCard = ({ report }) => {
           <p className='text-xs text-gray-500'>Branch: {branch_code}</p>
         </div>
 
-        {/* Upload Date */}
-        <div className='text-xs text-gray-500 border-t border-gray-100 pt-2'>
+        {/* Upload Date - Pushed to bottom */}
+        <div className='text-xs text-gray-500 border-t border-gray-100 pt-2 mt-auto'>
           {new Date(uploaded_at).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
@@ -112,7 +73,6 @@ const ReportCard = ({ report }) => {
             minute: '2-digit'
           })}
         </div>
-
 
       </div>
     </div>
